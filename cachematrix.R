@@ -24,6 +24,13 @@ makeCacheMatrix <- function(x = matrix()) {
       x_rows<-attr(x,"dim")[1]
       x_cols<-attr(x,"dim")[2]
       if (x_rows == x_cols) {
+         ## Check for numeric values in matrix
+         for (i in x) {
+            if(!is.numeric(i) || is.na(i)) {
+               message("A not numeric value found in matrix")
+               return(NULL)
+            }
+         }
          ## Initialize inverse matrix
          inverse_m <- matrix()
          ## Define the function that "sets" the matrix
