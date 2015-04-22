@@ -35,8 +35,37 @@ makeCacheMatrix <- function(x = matrix()) {
          inverse_m <- matrix()
          ## Define the function that "sets" the matrix
          set <- function(y) {
-            x <<- y
-            inverse_m <<- matrix()
+            ## Check if y parameter is a matrix
+            if (is.matrix(y)) {
+               ## Check if y parameter is a square matrix
+               y_rows<-attr(y,"dim")[1]
+               y_cols<-attr(y,"dim")[2]
+               if (y_rows == y_cols) {
+                  ## Check for numeric values in matrix y
+                  for (i in y) {
+                     if(!is.numeric(i) || is.na(i)) {
+                        ## Inform the user...
+                        message("A not numeric value found in matrix")
+                        ## ... and return nothing
+                        return(NULL)
+                     }
+                  }
+                  x <<- y
+                  inverse_m <<- matrix()
+               ## In case parameter y is not a square matrix,
+               } else {
+                  ## inform the user for proper use...
+                  message ("Usage : var1$set(var2), where var2 is a square invertible matrix")
+                  ## ... and return nothing from the function
+                  return(NULL)
+               }
+            ## In case of wrong y parameter (not a matrix),
+            } else {
+               ## inform the user for proper use...
+               message ("Usage : var1$set(var2), where var2 is a square invertible matrix")
+               ## ... and return nothing from the function
+               return(NULL)
+            }
          }
          ## Define the function that "gets" the matrix
          get <- function() x
