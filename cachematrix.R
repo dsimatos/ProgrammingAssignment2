@@ -24,12 +24,10 @@ makeCacheMatrix <- function(x = matrix()) {
       x_rows<-attr(x,"dim")[1]
       x_cols<-attr(x,"dim")[2]
       if (x_rows == x_cols) {
-         ## Check for numeric values in matrix
-         for (i in x) {
-            if(!is.numeric(i) || is.na(i)) {
-               message("A not numeric value found in matrix")
-               return(NULL)
-            }
+         ## Check for non numeric values in matrix
+         if(sum(is.na(x))>0 || !is.numeric(x)) {
+            message("A non numeric value found in matrix")
+            return(NULL)
          }
          ## Initialize inverse matrix
          inverse_m <- matrix()
@@ -41,14 +39,10 @@ makeCacheMatrix <- function(x = matrix()) {
                y_rows<-attr(y,"dim")[1]
                y_cols<-attr(y,"dim")[2]
                if (y_rows == y_cols) {
-                  ## Check for numeric values in matrix y
-                  for (i in y) {
-                     if(!is.numeric(i) || is.na(i)) {
-                        ## Inform the user...
-                        message("A not numeric value found in matrix")
-                        ## ... and return nothing
-                        return(NULL)
-                     }
+                  ## Check for non numeric values in matrix y
+                  if(sum(is.na(y))>0 || !is.numeric(y)) {
+                     message("A non numeric value found in matrix")
+                     return(NULL)
                   }
                   x <<- y
                   inverse_m <<- matrix()
